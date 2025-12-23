@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>College Event Management System</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-calendar-alt"></i>
+                <span>CEMS</span>
+            </div>
+            <div class="nav-menu">
+                <a href="#home" class="nav-link">Home</a>
+                <a href="#events" class="nav-link">Events</a>
+                <a href="#about" class="nav-link">About</a>
+                <a href="#contact" class="nav-link">Contact</a>
+                <div class="theme-toggle">
+                    <button id="theme-toggle" class="theme-btn">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                </div>
+                <div class="auth-buttons">
+                    <a href="login.html" class="btn btn-outline">Login</a>
+                    <a href="register.html" class="btn btn-primary">Register</a>
+                </div>
+            </div>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1 class="hero-title">Welcome to College Event Management System</h1>
+                <p class="hero-subtitle">Discover, register, and participate in amazing college events. Connect with your community and make memories that last a lifetime.</p>
+                <div class="hero-buttons">
+                    <a href="#events" class="btn btn-primary btn-large">Explore Events</a>
+                    <a href="register.html" class="btn btn-outline btn-large">Get Started</a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <div class="hero-graphic">
+                    <i class="fas fa-users"></i>
+                    <i class="fas fa-calendar-check"></i>
+                    <i class="fas fa-trophy"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-icon">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 id="total-events">0</h3>
+                        <p>Total Events</p>
+                    </div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 id="total-participants">0</h3>
+                        <p>Participants</p>
+                    </div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 id="total-venues">0</h3>
+                        <p>Venues</p>
+                    </div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 id="avg-rating">0</h3>
+                        <p>Avg Rating</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Events Section -->
+    <section id="events" class="events">
+        <div class="container">
+            <div class="section-header">
+                <h2>Upcoming Events</h2>
+                <p>Discover exciting events happening around campus</p>
+            </div>
+            
+            <div class="events-filters">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="event-search" placeholder="Search events...">
+                </div>
+                <div class="filter-buttons">
+                    <button class="filter-btn active" data-filter="all">All Events</button>
+                    <button class="filter-btn" data-filter="this-week">This Week</button>
+                    <button class="filter-btn" data-filter="this-month">This Month</button>
+                </div>
+            </div>
+
+            <div class="events-grid" id="events-grid">
+                <!-- Featured static events (images added) -->
+                <div class="event-card">
+                    <div class="event-image">
+                        <img src="/uploads/events/Career Fair.png" alt="Career Fair 2025">
+                    </div>
+                    <div class="event-content">
+                        <h3 class="event-title">University Career Fair 2025</h3>
+                        <p class="event-description">Discover your future — meet employers and attend workshops.</p>
+                    </div>
+                </div>
+                <div class="event-card">
+                    <div class="event-image">
+                        <img src="/uploads/events/Cultural Night.png" alt="Cultural Night 2025">
+                    </div>
+                    <div class="event-content">
+                        <h3 class="event-title">Cultural Night 2025</h3>
+                        <p class="event-description">A celebration of music, dance, and food from around the world.</p>
+                    </div>
+                </div>
+                <div class="event-card">
+                    <div class="event-image">
+                        <img src="/uploads/events/Tech fest 2025.png" alt="Tech Fest 2025">
+                    </div>
+                    <div class="event-content">
+                        <h3 class="event-title">Tech Fest 2025</h3>
+                        <p class="event-description">Artificial intelligence & innovation — keynote talks and demos.</p>
+                    </div>
+                </div>
+
+                <!-- Events will still be loaded here dynamically -->
+                <div class="loading">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <p>Loading events...</p>
+                </div>
++            </div>
+
+            <div class="load-more">
+                <button id="load-more-btn" class="btn btn-outline">Load More Events</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text">
+                    <h2>About CEMS</h2>
+                    <p>The College Event Management System (CEMS) is a comprehensive platform designed to streamline event management for educational institutions. Our system provides a seamless experience for students, organizers, and administrators.</p>
+                    
+                    <div class="features-grid">
+                        <div class="feature-item">
+                            <i class="fas fa-user-graduate"></i>
+                            <h4>For Students</h4>
+                            <p>Discover and register for events, track your participation, and earn certificates.</p>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-user-tie"></i>
+                            <h4>For Organizers</h4>
+                            <p>Create and manage events, track attendance, and analyze feedback.</p>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-user-shield"></i>
+                            <h4>For Admins</h4>
+                            <p>Oversee all events, manage users, and generate comprehensive reports.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-image">
+                    <div class="about-graphic">
+                        <i class="fas fa-university"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <div class="section-header">
+                <h2>Get In Touch</h2>
+                <p>Have questions? We'd love to hear from you.</p>
+            </div>
+            
+            <div class="contact-content">
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div>
+                            <h4>Address</h4>
+                            <p>College Campus<br>City, State 12345</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <div>
+                            <h4>Phone</h4>
+                            <p>+1 (555) 123-4567</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <div>
+                            <h4>Email</h4>
+                            <p>info@cems.edu</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <form class="contact-form" id="contact-form">
+                    <div class="form-group">
+                        <input type="text" id="contact-name" placeholder="Your Name" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" id="contact-email" placeholder="Your Email" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="contact-subject" placeholder="Subject" required>
+                    </div>
+                    <div class="form-group">
+                        <textarea id="contact-message" placeholder="Your Message" rows="5" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span>CEMS</span>
+                    </div>
+                    <p>Connecting students through events and experiences.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#events">Events</a></li>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact Info</h4>
+                    <p><i class="fas fa-envelope"></i> info@cems.edu</p>
+                    <p><i class="fas fa-phone"></i> +1 (555) 123-4567</p>
+                    <p><i class="fas fa-map-marker-alt"></i> College Campus</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 College Event Management System. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Event Modal -->
+    <div id="event-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modal-event-title"></h3>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="event-details">
+                    <div class="event-image">
+                        <img id="modal-event-image" src="" alt="Event Image">
+                    </div>
+                    <div class="event-info">
+                        <div class="event-meta">
+                            <div class="meta-item">
+                                <i class="fas fa-calendar"></i>
+                                <span id="modal-event-date"></span>
+                            </div>
+                            <div class="meta-item">
+                                <i class="fas fa-clock"></i>
+                                <span id="modal-event-time"></span>
+                            </div>
+                            <div class="meta-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span id="modal-event-venue"></span>
+                            </div>
+                            <div class="meta-item">
+                                <i class="fas fa-user"></i>
+                                <span id="modal-event-organizer"></span>
+                            </div>
+                            <div class="meta-item">
+                                <i class="fas fa-users"></i>
+                                <span id="modal-event-capacity"></span>
+                            </div>
+                        </div>
+                        <div class="event-description">
+                            <p id="modal-event-description"></p>
+                        </div>
+                        <div class="event-actions">
+                            <button id="register-btn" class="btn btn-primary">Register for Event</button>
+                            <button id="unregister-btn" class="btn btn-outline" style="display: none;">Unregister</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/theme.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/index.js"></script>
+</body>
+</html>
+
+

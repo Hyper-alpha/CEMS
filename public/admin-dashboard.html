@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - CEMS</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-calendar-alt"></i>
+                <span>CEMS</span>
+            </div>
+            <div class="nav-menu">
+                <a href="#dashboard" class="nav-link active">Dashboard</a>
+                <a href="#events" class="nav-link">Events</a>
+                <a href="#users" class="nav-link">Users</a>
+                <a href="#venues" class="nav-link">Venues</a>
+                <a href="#analytics" class="nav-link">Analytics</a>
+                <a href="#settings" class="nav-link">Settings</a>
+                <!-- theme toggle removed from role dashboards -->
+                <div class="user-menu">
+                    <div class="user-dropdown" id="user-dropdown" aria-label="User menu">
+                            <button class="user-avatar" id="user-menu-toggle" aria-haspopup="true" aria-expanded="false">
+                                <span id="user-initials">AU</span>
+                            </button>
+                            <div class="dropdown-menu">
+                                <div class="user-info">
+                                    <span class="user-name" id="user-name">Loading...</span>
+                                    <span class="user-role">Admin</span>
+                                </div>
+                                <a href="profile.html" class="dropdown-item">
+                                    <i class="fas fa-user"></i>
+                                    Profile
+                                </a>
+                                <a href="settings.html" class="dropdown-item">
+                                    <i class="fas fa-cog"></i>
+                                    Settings
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a href="#" class="dropdown-item" id="logout-btn">
+                                    <i class="fas fa-sign-out-alt"></i>
+                                    Logout
+                                </a>
+                            </div>
+                        </div>
+                </div>
+            </div>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Dashboard Section -->
+        <section id="dashboard" class="dashboard-section active">
+            <div class="container">
+                <div class="page-header">
+                    <h1>Admin Dashboard</h1>
+                    <p>System overview and management</p>
+                </div>
+
+                <!-- Stats Cards -->
+                    <div class="stats-grid">
+                    <div class="stat-card" role="button" tabindex="0" style="cursor:pointer;" data-section="users">
+                        <div class="stat-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="total-users">0</h3>
+                            <p>Total Users</p>
+                        </div>
+                    </div>
+                    <div class="stat-card" role="button" tabindex="0" style="cursor:pointer;" data-section="events">
+                        <div class="stat-icon">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="total-events">0</h3>
+                            <p>Total Events</p>
+                        </div>
+                    </div>
+                    <div class="stat-card" role="button" tabindex="0" style="cursor:pointer;" data-section="venues">
+                        <div class="stat-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="total-venues">0</h3>
+                            <p>Total Venues</p>
+                        </div>
+                    </div>
+                    <div class="stat-card" role="button" tabindex="0" style="cursor:pointer;" data-section="analytics">
+                        <div class="stat-icon">
+                            <i class="fas fa-calendar-check"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="total-registrations">0</h3>
+                            <p>Total Registrations</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="quick-actions">
+                    <h2>Quick Actions</h2>
+                    <div class="actions-grid">
+                        <button class="action-card" data-section="events">
+                            <i class="fas fa-calendar-check"></i>
+                            <span>Manage Events</span>
+                        </button>
+                        <button class="action-card" data-section="users">
+                            <i class="fas fa-users"></i>
+                            <span>Manage Users</span>
+                        </button>
+                        <button class="action-card" data-section="venues">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Manage Venues</span>
+                        </button>
+                        <button class="action-card" id="btn-open-announcement">
+                            <i class="fas fa-bullhorn"></i>
+                            <span>Send Announcement</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Pending Approvals -->
+                <div class="pending-approvals">
+                    <h2>Pending Approvals</h2>
+                    <div class="pending-list" id="pending-events">
+                        <div class="loading">
+                            <i class="fas fa-spinner fa-spin"></i>
+                            <p>Loading pending events...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Activity -->
+                <div class="recent-activity">
+                    <h2>Recent Activity</h2>
+                    <div class="activity-list" id="recent-activity">
+                        <div class="loading">
+                            <i class="fas fa-spinner fa-spin"></i>
+                            <p>Loading activity...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Events Section -->
+        <section id="events" class="dashboard-section">
+            <div class="container">
+                <div class="page-header">
+                    <h1>Event Management</h1>
+                    <p>Approve, manage, and monitor all events</p>
+                </div>
+
+                <div class="events-filters">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="event-search" placeholder="Search events...">
+                    </div>
+                    <div class="filter-buttons">
+                        <button class="filter-btn active" data-filter="all">All Events</button>
+                        <button class="filter-btn" data-filter="pending">Pending</button>
+                        <button class="filter-btn" data-filter="approved">Approved</button>
+                        <button class="filter-btn" data-filter="rejected">Rejected</button>
+                    </div>
+                </div>
+
+                <div class="events-grid" id="events-grid">
+                    <div class="loading">
+                        <i class="fas fa-spinner fa-spin"></i>
+                        <p>Loading events...</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Users Section -->
+        <section id="users" class="dashboard-section">
+            <div class="container">
+                <div class="page-header">
+                    <h1>User Management</h1>
+                    <p>Manage user accounts and permissions</p>
+                </div>
+
+                <div class="users-filters">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="user-search" placeholder="Search users...">
+                    </div>
+                    <div class="filter-buttons">
+                        <button class="filter-btn active" data-filter="all">All Users</button>
+                        <button class="filter-btn" data-filter="student">Students</button>
+                        <button class="filter-btn" data-filter="organizer">Organizers</button>
+                        <button class="filter-btn" data-filter="admin">Admins</button>
+                    </div>
+                </div>
+
+                <div class="users-table-container">
+                    <table class="users-table" id="users-table">
+                        <thead>
+                            <tr>
+                                <th data-sort="email" tabindex="0">Email <span class="sort-indicator"></span></th>
+                                <th data-sort="role" tabindex="0">Role <span class="sort-indicator"></span></th>
+                                <th data-sort="department" tabindex="0">Department <span class="sort-indicator"></span></th>
+                                <th data-sort="created_at" tabindex="0">Status <span class="sort-indicator"></span></th>
+                                <th>Actions</th>
+                            </tr>
+                            <tr class="table-filters">
+                                <th><input type="text" id="filter-email" placeholder="Filter email..." style="width:100%;padding:6px;border-radius:6px;border:1px solid var(--border-light);"></th>
+                                <th>
+                                    <div style="display:flex;gap:6px;align-items:center;">
+                                        <select id="filter-role" style="padding:6px;border-radius:6px;border:1px solid var(--border-light);">
+                                            <option value="all">All</option>
+                                            <option value="student">Student</option>
+                                            <option value="organizer">Organizer</option>
+                                        </select>
+                                    </div>
+                                </th>
+                                <th><input type="text" id="filter-department" placeholder="Filter dept..." style="width:100%;padding:6px;border-radius:6px;border:1px solid var(--border-light);"></th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody id="users-table-body">
+                            <tr>
+                                <td colspan="5" class="loading">
+                                    <i class="fas fa-spinner fa-spin"></i>
+                                    <p>Loading users...</p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="users-pagination" style="display:flex;align-items:center;justify-content:flex-end;gap:8px;padding-top:8px;">
+                        <label for="users-page-size" style="color:var(--text-secondary);font-size:0.9rem;">Show</label>
+                        <select id="users-page-size" style="padding:6px;border-radius:6px;border:1px solid var(--border-light);">
+                            <option value="10">10</option>
+                            <option value="20" selected>20</option>
+                            <option value="50">50</option>
+                        </select>
+                        <div style="width:8px;"></div>
+                        <button class="btn btn-outline" id="users-prev-btn" style="padding:0.5rem 0.75rem;">Prev</button>
+                        <div id="users-page-indicator" style="font-size:0.9rem;color:var(--text-secondary);">Page 1</div>
+                        <button class="btn btn-outline" id="users-next-btn" style="padding:0.5rem 0.75rem;">Next</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Venues Section -->
+        <section id="venues" class="dashboard-section">
+            <div class="container">
+                <div class="page-header">
+                    <h1>Venue Management</h1>
+                    <p>Manage event venues and their capacities</p>
+                </div>
+
+                <div class="venues-actions">
+                    <button id="btn-toggle-inline-venue" class="btn btn-primary">
+                        <i class="fas fa-plus"></i>
+                        Add New Venue
+                    </button>
+                </div>
+
+                <!-- Inline create venue form (hidden by default) -->
+                <div id="inline-create-venue" style="display:none;margin-top:12px;">
+                    <form id="inline-create-venue-form" style="display:flex;gap:8px;align-items:flex-end;flex-wrap:wrap;">
+                        <div style="flex:1;min-width:200px;">
+                            <label for="inline-venue-name">Venue Name</label>
+                            <input type="text" id="inline-venue-name" name="name" placeholder="Enter venue name" required style="width:100%;padding:6px;border-radius:6px;border:1px solid var(--border-light);">
+                        </div>
+                        <div style="flex:1;min-width:200px;">
+                            <label for="inline-venue-location">Location</label>
+                            <input type="text" id="inline-venue-location" name="location" placeholder="Enter venue location" required style="width:100%;padding:6px;border-radius:6px;border:1px solid var(--border-light);">
+                        </div>
+                        <div style="width:120px;min-width:120px;">
+                            <label for="inline-venue-capacity">Capacity</label>
+                            <input type="number" id="inline-venue-capacity" name="capacity" min="1" placeholder="Max" required style="width:100%;padding:6px;border-radius:6px;border:1px solid var(--border-light);">
+                        </div>
+                        <div style="flex-basis:100%;">
+                            <label for="inline-venue-facilities">Facilities (comma separated)</label>
+                            <input type="text" id="inline-venue-facilities" name="facilities" placeholder="e.g. Projector, AC" style="width:100%;padding:6px;border-radius:6px;border:1px solid var(--border-light);">
+                        </div>
+                        <div style="display:flex;gap:8px;">
+                            <button type="button" id="inline-create-venue-cancel" class="btn btn-outline">Cancel</button>
+                            <button type="submit" class="btn btn-primary">Create Venue</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Venues table (full width) -->
+                <div class="venues-table-wrapper" style="width:100%;margin-top:12px;overflow:auto;">
+                    <table id="venues-table" class="venues-table" style="width:100%;border-collapse:collapse;">
+                        <thead>
+                            <tr>
+                                <th style="text-align:left;padding:10px;border-bottom:1px solid var(--border-light);">Name</th>
+                                <th style="text-align:left;padding:10px;border-bottom:1px solid var(--border-light);">Location</th>
+                                <th style="text-align:left;padding:10px;border-bottom:1px solid var(--border-light);">Capacity</th>
+                                <th style="text-align:left;padding:10px;border-bottom:1px solid var(--border-light);">Facilities</th>
+                                <th style="text-align:left;padding:10px;border-bottom:1px solid var(--border-light);">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="venues-table-body">
+                            <tr>
+                                <td colspan="5" class="loading" style="padding:20px;text-align:center;">
+                                    <i class="fas fa-spinner fa-spin"></i>
+                                    <p>Loading venues...</p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Analytics Section -->
+        <section id="analytics" class="dashboard-section">
+            <div class="container">
+                <div class="page-header">
+                    <h1>System Analytics</h1>
+                    <p>Comprehensive system insights and reports</p>
+                </div>
+
+                <div class="analytics-grid">
+                    <div class="analytics-card">
+                        <h3>Event Participation Trends</h3>
+                        <div id="admin-participation-chart" class="chart-placeholder">
+                            <i class="fas fa-chart-line"></i>
+                            <p>Participation trends chart</p>
+                        </div>
+                    </div>
+                    <div class="analytics-card">
+                        <h3>Department-wise Participation</h3>
+                        <div id="admin-dept-chart" class="chart-placeholder">
+                            <i class="fas fa-chart-pie"></i>
+                            <p>Department participation chart</p>
+                        </div>
+                    </div>
+                    <div class="analytics-card">
+                        <h3>Event Feedback Analysis</h3>
+                        <div class="feedback-analysis" id="feedback-analysis">
+                            <div class="loading">
+                                <i class="fas fa-spinner fa-spin"></i>
+                                <p>Loading feedback analysis...</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="analytics-card">
+                        <h3>Popular Venues</h3>
+                        <div class="venue-stats" id="venue-stats">
+                            <div class="loading">
+                                <i class="fas fa-spinner fa-spin"></i>
+                                <p>Loading venue statistics...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Edit Venue Modal -->
+            <div id="edit-venue-modal" class="modal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3>Edit Venue</h3>
+                        <span class="close">&times;</span>
+                    </div>
+                    <div class="modal-body">
+                        <form id="edit-venue-form">
+                            <input type="hidden" id="edit-venue-id" name="id" />
+                            <div class="form-group">
+                                <label for="edit-venue-name">Venue Name</label>
+                                <input type="text" id="edit-venue-name" name="name" placeholder="Enter venue name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="edit-venue-location">Location</label>
+                                <input type="text" id="edit-venue-location" name="location" placeholder="Enter venue location" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="edit-venue-capacity">Capacity</label>
+                                <input type="number" id="edit-venue-capacity" name="capacity" min="1" placeholder="Maximum capacity" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="edit-venue-facilities">Facilities</label>
+                                <textarea id="edit-venue-facilities" name="facilities" rows="3" placeholder="List available facilities..."></textarea>
+                            </div>
+                            <div class="form-actions">
+                                <button type="button" class="btn btn-outline btn-cancel-modal" data-modal="edit-venue-modal">Cancel</button>
+                                <button type="submit" class="btn btn-primary">Save Changes</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Settings Section -->
+        <section id="settings" class="dashboard-section">
+            <div class="container">
+                <div class="page-header">
+                    <h1>System Settings</h1>
+                    <p>Configure system-wide settings and preferences</p>
+                </div>
+
+                <div class="settings-grid">
+                    <div class="settings-card">
+                        <h3>General Settings</h3>
+                        <form id="general-settings-form">
+                            <div class="form-group">
+                                <label for="site-name">Site Name</label>
+                                <input type="text" id="site-name" name="site_name">
+                            </div>
+                            <div class="form-group">
+                                <label for="max-registrations">Max Registrations per Student</label>
+                                <input type="number" id="max-registrations" name="max_registration_per_student" min="1">
+                            </div>
+                            <div class="form-group">
+                                <label for="registration-deadline">Registration Deadline (hours before event)</label>
+                                <input type="number" id="registration-deadline" name="registration_deadline_hours" min="1">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Save Settings</button>
+                        </form>
+                    </div>
+                    <div class="settings-card">
+                        <h3>Notification Settings</h3>
+                        <form id="notification-settings-form">
+                            <div class="form-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="email-notifications" name="email_notifications">
+                                    <span class="checkmark"></span>
+                                    Enable Email Notifications
+                                </label>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Save Settings</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Event Approval Modal -->
+    <div id="event-approval-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Event Approval</h3>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="event-details" id="approval-event-details">
+                    <!-- Event details will be populated here -->
+                </div>
+                <form id="approval-form">
+                    <div class="form-group">
+                        <label>Decision</label>
+                        <div class="radio-group">
+                            <label class="radio-label">
+                                <input type="radio" name="decision" value="approved" required>
+                                <span class="radio-mark"></span>
+                                Approve Event
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="decision" value="rejected" required>
+                                <span class="radio-mark"></span>
+                                Reject Event
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="admin-notes">Admin Notes</label>
+                        <textarea id="admin-notes" name="adminNotes" rows="3" placeholder="Add notes for the organizer..."></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-outline btn-cancel-modal" data-modal="event-approval-modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Submit Decision</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Announcement Modal -->
+    <div id="announcement-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Send Announcement</h3>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="announcement-form">
+                    <div class="form-group">
+                        <label for="announcement-title">Title</label>
+                        <input type="text" id="announcement-title" name="title" placeholder="Announcement title" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="announcement-message">Message</label>
+                        <textarea id="announcement-message" name="message" rows="5" placeholder="Your announcement message..." required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="target-role">Target Audience</label>
+                        <select id="target-role" name="targetRole">
+                            <option value="all">All Users</option>
+                            <option value="student">Students Only</option>
+                            <option value="organizer">Organizers Only</option>
+                        </select>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-outline btn-cancel-modal" data-modal="announcement-modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Send Announcement</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit User Modal -->
+    <div id="edit-user-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Edit User</h3>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="edit-user-form">
+                    <input type="hidden" id="edit-user-id" />
+                    <div class="form-group">
+                        <label for="edit-first-name">First Name</label>
+                        <input type="text" id="edit-first-name" name="firstName" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-last-name">Last Name</label>
+                        <input type="text" id="edit-last-name" name="lastName" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-phone">Phone</label>
+                        <input type="text" id="edit-phone" name="phone" />
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-department">Department</label>
+                        <input type="text" id="edit-department" name="department" />
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" id="edit-is-active" name="isActive" /> Active
+                        </label>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-outline btn-cancel-modal" data-modal="edit-user-modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Create Venue Modal -->
+    <div id="create-venue-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add New Venue</h3>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="create-venue-form">
+                    <div class="form-group">
+                        <label for="venue-name">Venue Name</label>
+                        <input type="text" id="venue-name" name="name" placeholder="Enter venue name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="venue-location">Location</label>
+                        <input type="text" id="venue-location" name="location" placeholder="Enter venue location" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="venue-capacity">Capacity</label>
+                        <input type="number" id="venue-capacity" name="capacity" min="1" placeholder="Maximum capacity" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="venue-facilities">Facilities</label>
+                        <textarea id="venue-facilities" name="facilities" rows="3" placeholder="List available facilities..."></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-outline btn-cancel-modal" data-modal="create-venue-modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Create Venue</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/theme.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/dashboard.js"></script>
+    <script src="js/admin-dashboard.js"></script>
+    <!-- Fallback: if dashboard scripts fail, try to populate pending/recent via a lightweight fetch -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(async () => {
+                try {
+                    const pendingEl = document.getElementById('pending-events');
+                    const recentEl = document.getElementById('recent-activity');
+                    // If both elements still contain a .loading child, attempt a direct fetch
+                    const stillLoading = (el) => el && el.querySelector('.loading');
+                    if (!stillLoading(pendingEl) && !stillLoading(recentEl)) return;
+
+                    const token = localStorage.getItem('token');
+                    if (!token) return;
+
+                    const res = await fetch('/api/admin/dashboard-stats', {
+                        headers: { 'Authorization': `Bearer ${token}` }
+                    });
+                    if (!res.ok) return;
+                    const data = await res.json();
+                    const stats = data.stats || {};
+
+                    // populate pending
+                    if (pendingEl) {
+                        const pending = stats.pendingEvents || [];
+                        if (pending.length === 0) {
+                            pendingEl.innerHTML = `\n                                <div class="no-pending">\n                                    <i class="fas fa-check-circle"></i>\n                                    <h3>No pending approvals</h3>\n                                    <p>All events are up to date</p>\n                                </div>\n                            `;
+                        } else {
+                            pendingEl.innerHTML = pending.map(e => `\n                                <div class="pending-event-card">\n                                    <div class="event-info">\n                                        <h4>${e.title}</h4>\n                                        <p>by ${e.organizer_first_name} ${e.organizer_last_name}</p>\n                                    </div>\n                                </div>\n                            `).join('');
+                        }
+                    }
+
+                    // populate recent activity
+                    if (recentEl) {
+                        const recents = stats.recentEvents || [];
+                        if (recents.length === 0) {
+                            recentEl.innerHTML = `\n                                <div class="no-activity">\n                                    <i class="fas fa-calendar-times"></i>\n                                    <p>No recent activity</p>\n                                </div>\n                            `;
+                        } else {
+                            recentEl.innerHTML = recents.map(ev => `\n                                <div class="activity-item">\n                                    <div class="activity-icon"><i class="fas fa-calendar-plus"></i></div>\n                                    <div class="activity-content">\n                                        <div class="activity-title">${ev.title} created</div>\n                                        <div class="activity-description">by ${ev.organizer_first_name} ${ev.organizer_last_name}</div>\n                                        <div class="activity-time">${new Date(ev.created_at).toLocaleString()}</div>\n                                    </div>\n                                </div>\n                            `).join('');
+                        }
+                    }
+
+                } catch (err) {
+                    // silent fail — this is a fallback helper
+                    console.debug('Admin dashboard fallback failed', err);
+                }
+            }, 1500);
+        });
+    </script>
+</body>
+</html>
+
+
